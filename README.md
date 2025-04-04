@@ -31,6 +31,7 @@ sudo apt-get install -y docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
 ```
+*(Note: If installation fails due to dependencies, try `sudo apt-get update && sudo apt-get install -y containerd && sudo apt-get install -y docker.io`)*
 
 ### 2. Pull the Docker Image
 Before starting the container, pull the Docker image:
@@ -40,7 +41,9 @@ docker pull rgruberski/ros2-ubuntu-web-vnc:humble
 
 ### 3. Start the Docker Container
 ```bash
-docker run --name ros2-humble-vnc -p 8080:8080 -p 5900:5900 -d rgruberski/ros2-ubuntu-web-vnc:humble
+# The --security-opt seccomp=unconfined flag may be needed in some environments (like Codespaces) 
+# to allow the desktop environment within the container to start correctly.
+docker run --name ros2-humble-vnc --security-opt seccomp=unconfined -p 8080:8080 -p 5900:5900 -d rgruberski/ros2-ubuntu-web-vnc:humble
 ```
 
 ### 4. Install XFCE Desktop Environment
